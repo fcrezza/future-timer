@@ -1,5 +1,6 @@
 import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
+import Header from "./view/Header";
 import TimeInput from "./components/TimeInput";
 
 const GlobalStyle = createGlobalStyle`
@@ -13,25 +14,34 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     font-size: 16px;
     font-family: 'Poppins', sans-serif;
+    background: #f8f8f8;
   }
+`;
+
+const Container = styled.div`
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+`;
+
+const ListInput = styled.div`
+  margin-top: 55px;
+  display: flex;
+  justify-content: center;
 `;
 
 const App = () => {
   return (
     <>
       <GlobalStyle />
-      <div className="hour">
-        <TimeInput max={24} />
-        Jam
-      </div>
-      <div className="minute">
-        <TimeInput max={60} />
-        Menit
-      </div>
-      <div className="second">
-        <TimeInput max={60} />
-        Detik
-      </div>
+      <Container>
+        <Header />
+        <ListInput>
+          <TimeInput max={24} text="Jam" />
+          <TimeInput max={60} text="Menit" />
+          <TimeInput max={60} text="Detik" />
+        </ListInput>
+      </Container>
     </>
   );
 };
