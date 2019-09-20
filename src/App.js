@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "./view/Header";
-import TimeInput from "./components/TimeInput";
+import ListInput from "./components/ListInput";
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
@@ -24,23 +24,13 @@ const Container = styled.div`
   margin: 0 auto;
 `;
 
-const ListInput = styled.div`
-  margin-top: 55px;
-  display: flex;
-  justify-content: center;
-`;
-
 const App = () => {
   return (
     <>
       <GlobalStyle />
       <Container>
         <Header />
-        <ListInput>
-          <TimeInput max={24} text="Jam" />
-          <TimeInput max={60} text="Menit" />
-          <TimeInput max={60} text="Detik" />
-        </ListInput>
+        <ListInput />
       </Container>
     </>
   );
