@@ -9,14 +9,20 @@ const Wrapper = styled.div`
 	grid-gap: 20px;
 `;
 
-const Items = ({isEdited, lists}) => {
+const Items = ({isEdited, lists, setTimer, setLists}) => {
+	const filterLists = (id) => {
+		const filteredLists = lists.filter(list => list.id !== id)
+		setLists(filteredLists)
+	}
+
 	return (
 		<Wrapper>
-		{lists.map(list => {
+		{lists.length > 0 && lists.map(list => {
 			return (
-				<Item key={list.id} {...{isEdited, list}} />
+				<Item key={list.id} {...{isEdited, list, filterLists, setTimer}} />
 			)
 		})}
+			{!isEdited && <Item addBtn {...{isEdited, list, filterLists, setTimer}}/>}
 		</Wrapper>
 	);
 };

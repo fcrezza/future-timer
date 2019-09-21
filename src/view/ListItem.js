@@ -13,12 +13,11 @@ const StyledListItem = styled.div`
 	}
 `;
 
-const ListItem = ({handleToggle, isEdited, lists}) => {
+const ListItem = ({handleToggle, isEdited, lists, setLists, setTimer}) => {
 	return (
 		<StyledListItem>
-			<a className="edit-btn" href="!#" onClick={handleToggle}>Edit</a>
-			<Items {...{isEdited, lists}} />
-			<Button />
+			<a className="edit-btn" href="#!" onClick={handleToggle}>{isEdited ? "Batal" : "Edit"}</a>
+			<Items {...{isEdited, lists, setLists, setTimer}} />
 		</StyledListItem>
 	);
 };

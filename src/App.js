@@ -3,6 +3,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import Header from "./view/Header";
 import ListInput from "./components/ListInput";
 import ListItem from "./view/ListItem";
+import Button from './components/Button'
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
@@ -33,9 +34,18 @@ const App = () => {
       id: 1,
       name: "Lari",
       duration: {
-        hour: 1,
+        hour: 0,
         minute: 5,
         second: 30
+      }
+    },
+    {
+      id: 2,
+      name: "mandi",
+      duration: {
+        hour: 0,
+        minute: 2,
+        second: 0
       }
     }
   ]);
@@ -50,7 +60,8 @@ const App = () => {
       <Container>
         <Header />
         <ListInput {...{timer, setTimer}}/>
-        <ListItem isEdited={edit} {...{handleToggle, lists}}/>
+        <ListItem isEdited={edit} {...{handleToggle, lists, setLists, setTimer}}/>
+      <Button timer={timer}/>
       </Container>
     </Fragment>
   );
