@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState, Fragment } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import Header from "./view/Header";
 import ListInput from "./components/ListInput";
+import ListItem from "./view/ListItem";
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
@@ -20,19 +21,38 @@ const GlobalStyle = createGlobalStyle`
 
 const Container = styled.div`
   width: 100%;
-  max-width: 720px;
+  max-width: 500px;
   margin: 0 auto;
 `;
 
 const App = () => {
+  const [timer, setTimer] = useState({hour: "", minute: "", second: ""})
+  const [edit, setEdit] = useState(false);
+  const [lists, setLists] = useState([
+    {
+      id: 1,
+      name: "Lari",
+      duration: {
+        hour: 1,
+        minute: 5,
+        second: 30
+      }
+    }
+  ]);
+
+  const handleToggle = () => {
+    setEdit(prev => !prev);
+  };
+
   return (
-    <>
+    <Fragment>
       <GlobalStyle />
       <Container>
         <Header />
-        <ListInput />
+        <ListInput {...{timer, setTimer}}/>
+        <ListItem isEdited={edit} {...{handleToggle, lists}}/>
       </Container>
-    </>
+    </Fragment>
   );
 };
 

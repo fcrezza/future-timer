@@ -15,6 +15,9 @@ const InputItem = styled.input`
 	width: 60px;
 	padding: 0;
 	-moz-appearance: textfield;
+	&::placeholder {
+		color: #333;
+	}
 	&::-webkit-outer-spin-button,
 	&::-webkit-inner-spin-button {
 		-webkit-appearance: none;
@@ -26,10 +29,18 @@ const InputText = styled.span`
 	font-weight: 600;
 `;
 
-const TimeInput = ({ max, text }) => {
+const TimeInput = ({ text, time, timer, setTimer, id }) => {
+
+console.log(timer)
+
 	return (
 		<Wrapper>
-			<InputItem type="number" max={max} min={0} value={0} />
+			<InputItem
+			placeholder="0"
+				type="number"
+				value={time}
+				onChange={e => setTimer({ ...timer, [id]: e.target.value })}
+			/>
 			<InputText>{text}</InputText>
 		</Wrapper>
 	);
