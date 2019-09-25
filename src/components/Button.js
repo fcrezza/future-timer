@@ -16,10 +16,9 @@ const StyledButton = styled.a`
 	margin-bottom: 30px;
 `
 
-
-const Button = () => {
+const Button = ({text, handleSubmit}) => {
 	return (
-		<StyledButton>Mulai</StyledButton>
+		<StyledButton onClick={handleSubmit}>{text}</StyledButton>
 	)
 }
 
