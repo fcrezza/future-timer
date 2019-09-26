@@ -9,20 +9,34 @@ const Wrapper = styled.div`
 	grid-gap: 20px;
 `;
 
-const Items = ({isEdited, lists, setTimer, setLists}) => {
-	const filterLists = (id) => {
-		const filteredLists = lists.filter(list => list.id !== id)
-		setLists(filteredLists)
+const AddItem = styled.a`
+	display: block;
+	text-align: center;
+	text-decoration: none;
+	background-color: #e3e3e3;
+	width: 100%;
+	height: 155px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	font-size: 2rem;
+	font-weight: 600;
+	color: #2100ec;
+`
+
+const Items = ({isEdited, lists, setTimer, setLists, handleSetEvent, filterLists , handleEditData}) => {
+	const handleSetTimer = (hour, minute, second) => {
+		setTimer({hour, minute, second})
 	}
 
 	return (
 		<Wrapper>
-		{lists.length > 0 && lists.map(list => {
-			return (
-				<Item key={list.id} {...{isEdited, list, filterLists, setTimer}} />
-			)
-		})}
-			{!isEdited && <Item addBtn {...{isEdited, list, filterLists, setTimer}}/>}
+			{lists.length > 0 && lists.map(list => {
+				return (
+					<Item key={list.id} {...{isEdited, list, filterLists, handleSetTimer, handleEditData}} />
+				)
+			})}
+				{!isEdited && <AddItem href="#!" onClick={handleSetEvent}>+</AddItem>}
 		</Wrapper>
 	);
 };

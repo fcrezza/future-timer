@@ -65,8 +65,14 @@ const StyleItem = styled.div`
 	}
 `;
 
-const Item = ({ addBtn, isEdited, list, filterLists, setTimer }) => {
-	const { duration } = list;
+const Item = ({
+	isEdited,
+	list,
+	filterLists,
+	handleSetTimer,
+	handleEditData
+}) => {
+	const { duration, id } = list;
 	const { hour, minute, second } = duration;
 	let textDuration = "";
 
@@ -82,37 +88,35 @@ const Item = ({ addBtn, isEdited, list, filterLists, setTimer }) => {
 
 	return (
 		<StyleItem>
-			{addBtn ? (
-				<span className="add-btn">+</span>
-			) : (
-				<Fragment>
-					<img className="item-img" src={img} alt="" />
-					<span className="item-name">{list.name}</span>
-					{!isEdited && (
-						<Fragment>
-							<span className="item-duration">{textDuration}</span>
-							<a
-								href="#!"
-								className="start-item"
-								onClick={() => setTimer({ hour, minute, second })}></a>
-						</Fragment>
-					)}
-					{isEdited && (
-						<Fragment>
-							<div className="blurer"></div>
-							<a
-								href="#!"
-								className="remove-item"
-								onClick={() => filterLists(list.id)}>
-								-
-							</a>
-							<a href="#!" className="edit-item">
-								Edit
-							</a>
-						</Fragment>
-					)}
-				</Fragment>
-			)}
+			<Fragment>
+				<img className="item-img" src={img} alt="" />
+				<span className="item-name">{list.name}</span>
+				{!isEdited && (
+					<Fragment>
+						<span className="item-duration">{textDuration}</span>
+						<a
+							href="#!"
+							className="start-item"
+							onClick={() => handleSetTimer(hour, minute, second)}>
+							{" "}
+						</a>
+					</Fragment>
+				)}
+				{isEdited && (
+					<Fragment>
+						<div className="blurer"></div>
+						<a
+							href="#!"
+							className="remove-item"
+							onClick={() => filterLists(id)}>
+							-
+						</a>
+						<a href="#!" className="edit-item" onClick={() => handleEditData(list)}>
+							Edit
+						</a>
+					</Fragment>
+				)}
+			</Fragment>
 		</StyleItem>
 	);
 };
