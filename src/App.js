@@ -3,7 +3,7 @@ import styled, { createGlobalStyle } from "styled-components";
 import Header from "./view/Header";
 import ListInput from "./components/ListInput";
 import ListItem from "./view/ListItem";
-import Button from './components/Button'
+import Button from "./components/Button";
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
@@ -27,31 +27,14 @@ const Container = styled.div`
 `;
 
 const App = () => {
-  const [timer, setTimer] = useState({hour: "", minute: "", second: ""})
-  const [edit, setEdit] = useState(false);
+  const [timer, setTimer] = useState({ hour: "1", minute: "2", second: "" });
   const [lists, setLists] = useState([
-    {
-      id: 1,
-      name: "Lari",
-      duration: {
-        hour: 0,
-        minute: 5,
-        second: 30
-      }
-    },
-    {
-      id: 2,
-      name: "mandi",
-      duration: {
-        hour: 0,
-        minute: 2,
-        second: 0
-      }
-    }
+    { id: 1, name: "Lari", duration: { hour: "0", minute: "5", second: "30" } },
+    { id: 2, name: "mandi", duration: { hour: "0", minute: "2", second: "0" } }
   ]);
 
-  const handleToggle = () => {
-    setEdit(prev => !prev);
+  const handleSetTimer = (id, value) => {
+    setTimer({ ...timer, [id]: value });
   };
 
   return (
@@ -59,9 +42,9 @@ const App = () => {
       <GlobalStyle />
       <Container>
         <Header />
-        <ListInput {...{timer, setTimer}}/>
-        <ListItem isEdited={edit} {...{handleToggle, lists, setLists, setTimer}}/>
-      <Button timer={timer}/>
+        <ListInput {...{ timer, handleSetTimer }} />
+        <ListItem {...{ lists, setLists, setTimer }} />
+        <Button text="Mulai" />
       </Container>
     </Fragment>
   );

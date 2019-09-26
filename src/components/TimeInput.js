@@ -29,17 +29,14 @@ const InputText = styled.span`
 	font-weight: 600;
 `;
 
-const TimeInput = ({ text, time, timer, setTimer, id }) => {
-
-console.log(timer)
-
+const TimeInput = ({ text, time, handleSetTimer, id }) => {
 	return (
 		<Wrapper>
 			<InputItem
-			placeholder="0"
+				placeholder="0"
 				type="number"
 				value={time}
-				onChange={e => setTimer({ ...timer, [id]: e.target.value })}
+				onChange={e => handleSetTimer(id, e.target.value)}
 			/>
 			<InputText>{text}</InputText>
 		</Wrapper>

@@ -8,12 +8,24 @@ const Wrapper = styled.div`
 	justify-content: center;
 `;
 
-const ListInput = ({timer, setTimer}) => {
+const ListInput = ({timer, handleSetTimer}) => {
 	return (
 		<Wrapper>
-			<TimeInput id="hour" text="Jam" time={timer.hour} {...{timer, setTimer}}/>
-			<TimeInput id="minute" text="Menit" time={timer.minute} {...{timer, setTimer}}/>
-			<TimeInput id="second" text="Detik" time={timer.second} {...{timer, setTimer}}/>
+			<TimeInput 
+				id="hour" 
+				text="Jam" 
+				time={timer.hour} 
+				handleSetTimer={handleSetTimer}/>
+			<TimeInput 
+				id="minute" 
+				text="Menit" 
+				time={timer.minute} 
+				handleSetTimer={handleSetTimer}/>
+			<TimeInput 
+				id="second" 
+				text="Detik" 
+				time={timer.second} 
+				handleSetTimer={handleSetTimer}/>
 		</Wrapper>
 	);
 };
