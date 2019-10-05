@@ -6,12 +6,12 @@ const Wrapper = styled.div`
 `;
 
 const InputItem = styled.input`
-	background: transparent;
+	background: #e3e3e3;
 	font-weight: 700;
 	font-size: 3rem;
 	border: none;
 	outline: none;
-	text-align: right;
+	text-align: center;
 	width: 60px;
 	padding: 0;
 	-moz-appearance: textfield;
