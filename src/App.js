@@ -1,9 +1,9 @@
-import React, { useState, Fragment } from "react";
+import React, { Fragment, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
-import Header from "./view/Header";
-import ListInput from "./components/ListInput";
-import ListItem from "./view/ListItem";
-import Button from "./components/Button";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+
+import StartPage from "./view/StartPage";
+import Run from "./view/Run";
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
@@ -24,30 +24,33 @@ const Container = styled.div`
   width: 100%;
   max-width: 500px;
   margin: 0 auto;
+  position: relative;
 `;
 
-const App = () => {
-  const [timer, setTimer] = useState({ hour: "1", minute: "2", second: "" });
-  const [lists, setLists] = useState([
-    { id: 1, name: "Lari", duration: { hour: "0", minute: "5", second: "30" } },
-    { id: 2, name: "mandi", duration: { hour: "0", minute: "2", second: "0" } }
-  ]);
-
-  const handleSetTimer = (id, value) => {
-    setTimer({ ...timer, [id]: value });
-  };
+function App() {
+  const [timer, setTimer] = useState({ hour: "0", minute: "0", second: "10" });
 
   return (
-    <Fragment>
-      <GlobalStyle />
-      <Container>
-        <Header />
-        <ListInput {...{ timer, handleSetTimer }} />
-        <ListItem {...{ lists, setLists, setTimer }} />
-        <Button text="Mulai" />
-      </Container>
-    </Fragment>
+    <BrowserRouter>
+      <Fragment>
+        <GlobalStyle />
+        <Container>
+          <Switch>
+            <Route
+              exact
+              path="/"
+              render={(props) => <StartPage {...props} {...{timer, setTimer}} />}
+            />
+            <Route
+              path="/run"
+              render={(props) => <Run {...props} timer={timer}/>}
+            />
+            <Route render={() => <h1>page not found</h1>} />
+          </Switch>
+        </Container>
+      </Fragment>
+    </BrowserRouter>
   );
-};
+}
 
 export default App;
