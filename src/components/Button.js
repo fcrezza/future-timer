@@ -6,8 +6,9 @@ const StyledButton = styled.a`
 	color: #fff;
 	font-weight: 600;
 	display: block;
+	width: ${props => props.width ? "40%" : "100%"};
 	border-radius: 5px;
-	background-color: #2100ec;
+	background-color: ${props => props.secondary ? "#e02272" : "#2100ec"};
 	padding: 10px;
 	margin-top: 20px;
 	text-align: center;
@@ -16,10 +17,8 @@ const StyledButton = styled.a`
 	margin-bottom: 30px;
 `
 
-const Button = ({text, handleSubmit}) => {
-	return (
-		<StyledButton onClick={handleSubmit}>{text}</StyledButton>
-	)
+const Button = ({text, handleSubmit, width=false, secondary=false}) => {
+	return <StyledButton onClick={handleSubmit} width={width ? 1 : 0} secondary={secondary ? 1 : 0}>{text}</StyledButton>
 }
 
 export default Button
