@@ -1,37 +1,13 @@
 import React, { Fragment, useState } from "react";
-import styled, { createGlobalStyle } from "styled-components";
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-
 import StartPage from "./view/StartPage";
 import Run from "./view/Run";
+import { GlobalStyle, Container  } from './style/App'
 
-const GlobalStyle = createGlobalStyle`
-  @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+export default function App() {
+  const [timer, setTimer] = useState({ hour: "", minute: "", second: "" });
 
-  * {
-    box-sizing: border-box
-  }
-
-  body {
-    margin: 0;
-    font-size: 16px;
-    font-family: 'Poppins', sans-serif;
-    background: #f8f8f8;
-  }
-`;
-
-const Container = styled.div`
-  width: 100%;
-  max-width: 500px;
-  margin: 0 auto;
-  position: relative;
-`;
-
-function App() {
-  const [timer, setTimer] = useState({ hour: "0", minute: "0", second: "10" });
-
-  return (
-    <BrowserRouter>
+  return <BrowserRouter>
       <Fragment>
         <GlobalStyle />
         <Container>
@@ -39,18 +15,17 @@ function App() {
             <Route
               exact
               path="/"
-              render={(props) => <StartPage {...props} {...{timer, setTimer}} />}
+              render={props => (
+                <StartPage timer={timer} setTimer={setTimer} {...props} />
+              )}
             />
             <Route
               path="/run"
-              render={(props) => <Run {...props} timer={timer}/>}
+              render={props => <Run timer={timer} {...props} />}
             />
             <Route render={() => <h1>page not found</h1>} />
           </Switch>
         </Container>
       </Fragment>
     </BrowserRouter>
-  );
 }
-
-export default App;
