@@ -1,46 +1,17 @@
 import React from "react";
-import styled from "styled-components";
+import { Wrapper } from '../style/TimeInput';
 
-const Wrapper = styled.div`
-	padding: 0 14px;
-`;
-
-const InputItem = styled.input`
-	background: #e3e3e3;
-	font-weight: 700;
-	font-size: 3rem;
-	border: none;
-	outline: none;
-	text-align: center;
-	width: 60px;
-	padding: 0;
-	-moz-appearance: textfield;
-	&::placeholder {
-		color: #333;
-	}
-	&::-webkit-outer-spin-button,
-	&::-webkit-inner-spin-button {
-		-webkit-appearance: none;
-		margin: 0;
-	}
-`;
-
-const InputText = styled.span`
-	font-weight: 600;
-`;
-
-const TimeInput = ({ text, time, handleSetTimer, id }) => {
+export default function TimeInput({ text, time, handleSetTimer, id }) {
 	return (
 		<Wrapper>
-			<InputItem
+			<input
+				className="input-timer"
 				placeholder="0"
 				type="number"
 				value={time}
 				onChange={e => handleSetTimer(id, e.target.value)}
 			/>
-			<InputText>{text}</InputText>
+			<span className="input-label">{text}</span>
 		</Wrapper>
 	);
-};
-
-export default TimeInput;
+}
