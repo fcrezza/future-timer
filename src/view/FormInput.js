@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import ListInput from "../components/ListInput";
+import ListInput from "./ListInput";
 import Button from "../components/Button";
 import CloseBtn from '../components/CloseBtn';
 import { Overlay } from '../style/FormInput';

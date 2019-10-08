@@ -1,5 +1,5 @@
 import React from "react";
-import TimeInput from "./TimeInput";
+import TimeInput from "../components/TimeInput";
 import { Wrapper } from '../style/ListInput';
 
 export default function ListInput({ timer, handleSetTimer }) {
