@@ -6,6 +6,7 @@ import { GlobalStyle, Container  } from './style/App'
 
 export default function App() {
   const [timer, setTimer] = useState({ hour: "", minute: "", second: "" });
+  const [isPlaying, setIsPlaying] = useState(false);
 
   return <BrowserRouter>
       <Fragment>
@@ -16,12 +17,12 @@ export default function App() {
               exact
               path="/"
               render={props => (
-                <StartPage timer={timer} setTimer={setTimer} {...props} />
+                <StartPage timer={timer} setTimer={setTimer} setIsPlaying={setIsPlaying} isPlaying={isPlaying} {...props} />
               )}
             />
             <Route
               path="/run"
-              render={props => <Run timer={timer} {...props} />}
+              render={props => <Run timer={timer} setIsPlaying={setIsPlaying} {...props} />}
             />
             <Route render={() => <h1>page not found</h1>} />
           </Switch>

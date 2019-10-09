@@ -6,7 +6,7 @@ import { getEndTime } from '../logic/getEndTime';
 import { isEmpty } from '../logic/isEmpty';
 import { ButtonWrapper } from '../style/Run';
 
-export default function Run({ timer, history }) {
+export default function Run({ timer, history, setIsPlaying }) {
 	const [runTimer, setRunTimer] = useState({ ...timer });
 	const [stopTimer, setStopTimer] = useState(false);
 
@@ -28,10 +28,18 @@ export default function Run({ timer, history }) {
 	useEffect(() => {
 		if (now < 1) {
 			var myTimo = setTimeout(() => {
+				setIsPlaying(true);
 				handleClose();
 			}, 1000);
 		}
 
+		return () => {
+			clearTimeout(myTimo);
+		};
+		//eslint-disable-next-line
+	}, [now]);
+
+	useEffect(() => {
 		if (!stopTimer) {
 			var myInt = setInterval(() => {
 				setRunTimer({ hour: getHour, minute: getMinute, second: getSecond });
@@ -39,11 +47,10 @@ export default function Run({ timer, history }) {
 		}
 
 		return () => {
-			clearTimeout(myTimo);
 			clearInterval(myInt);
 		};
 		//eslint-disable-next-line
-	}, [runTimer, now, getHour, getMinute, getSecond, stopTimer]);
+	}, [runTimer, getHour, getMinute, getSecond, stopTimer]);
 
 	function handleClose() {
 		history.push("/");
