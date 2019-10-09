@@ -1,4 +1,4 @@
-import React, { useState, Fragment } from "react";
+import React, { useState, Fragment, useEffect } from "react";
 import Header from "./Header";
 import ListInput from "./ListInput";
 import ListItem from "./ListItem";
@@ -9,6 +9,18 @@ export default function StartPage({ setTimer, timer, history }) {
 		{ id: 1, name: "Lari", duration: { hour: "0", minute: "30", second: "30" } },
 		{ id: 2, name: "Mandi", duration: { hour: "0", minute: "5", second: "0" } }
 	]);
+
+	useEffect(() => {
+		const data = JSON.parse(localStorage.getItem('listItem'));
+		console.log(data)
+		if(data) {
+			setLists(data);
+		}
+	}, []);
+
+	useEffect(() => {
+		localStorage.setItem('listItem', JSON.stringify(lists));
+	}, [lists]);
 
 	function handleSetTimer(id, value) {
 		setTimer({ ...timer, [id]: value });
