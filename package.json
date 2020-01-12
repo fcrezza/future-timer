@@ -1,7 +1,10 @@
 {
-  "name": "projectt1",
-  "version": "0.1.0",
+  "name": "future-timer",
   "private": true,
+  "version": "0.1.0",
+  "description": "personal project",
+  "author": "Anang Fachreza",
+  "repository": "https://github.com/fcrezza/future-timer",
   "dependencies": {
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
