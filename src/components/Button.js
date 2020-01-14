@@ -1,24 +1,35 @@
-import React from "react";
-import { isEmpty } from '../logic/isEmpty';
-import {StyledButton} from '../style/Button';
+import React from 'react'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
-export default function Button({
-	text,
-	handleSubmit,
-	width = false,
-	secondary = false,
-	value
-}) {
-	if (isEmpty(value)) {
-		return <StyledButton disabled>{text}</StyledButton>;
-	}
+export const StyledButton = styled.button`
+  text-decoration: none;
+  color: #f1f1f1;
+  font-weight: 600;
+  display: block;
+  width: 100%;
+  border-radius: 5px;
+  background-color: ${({disabled}) =>
+    disabled ? 'rgba(0,0,255, .6)' : '#2100ec'};
+  padding: 12px;
+  margin-top: 20px;
+  text-align: center;
+  border: none;
+  outline: none;
+  cursor: ${({disabled}) => (disabled ? 'default' : 'pointer')};
+  margin-bottom: 20px;
+`
 
-	return (
-		<StyledButton
-			onClick={handleSubmit}
-			width={width ? 1 : 0}
-			secondary={secondary ? 1 : 0}>
-			{text}
-		</StyledButton>
-	);
-};
+const Button = ({children, disabled, onClick}) => (
+  <StyledButton onClick={onClick} disabled={disabled}>
+    {children}
+  </StyledButton>
+)
+
+export default Button
+
+Button.propTypes = {
+  children: PropTypes.string,
+  disabled: PropTypes.bool,
+  onClick: PropTypes.func
+}
