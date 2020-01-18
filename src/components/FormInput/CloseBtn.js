@@ -9,11 +9,11 @@ const StyledCloseBtn = styled.a`
   text-decoration: none;
   font-size: 1.7rem;
   font-weight: 500;
-  color: #2100ec;
+  color: #e02272;
 `
 
 const CloseBtn = ({handleClick}) => (
-  <StyledCloseBtn href="javascript:void(0)" onClick={handleClick}>
+  <StyledCloseBtn href="#" onClick={handleClick}>
     x
   </StyledCloseBtn>
 )

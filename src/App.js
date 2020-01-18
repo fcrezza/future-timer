@@ -1,17 +1,16 @@
-import React, {useState, useEffect, useRef, useContext} from 'react'
+import React, {useState, useEffect, useRef} from 'react'
 import styled, {createGlobalStyle} from 'styled-components'
-import 'typeface-poppins'
-import {AppContext} from './context/AppContext'
-import ItemProvider from './context/ItemContext'
-import Header from './components/Header'
-import ListInput from './components/ListInput'
-import ListItem from './components/ListItem'
-import Button from './components/Button'
-import alarm from './assets/alarm.mp3'
+import {Switch, Route, useLocation, Redirect} from 'react-router-dom'
+import {animated, useTransition} from 'react-spring'
+import {AppValue} from './context/AppContext'
+import Start from './components/Start'
+import Run from './components/Run'
 import {isEmpty} from './utils/isEmpty'
+import alarm from './assets/alarm.mp3'
+import 'typeface-poppins'
 
 const GlobalStyle = createGlobalStyle`
-  * {
+  *, *::after, *::before {
     box-sizing: border-box
   }
 
@@ -23,24 +22,43 @@ const GlobalStyle = createGlobalStyle`
   }
 `
 
-const Container = styled.div`
+const Container = styled(animated.div)`
   width: 100%;
   max-width: 520px;
   padding: 0 1.5rem;
   margin: 0 auto;
-  position: relative;
+
+  p {
+    text-align: center;
+  }
 `
 
 const App = () => {
   const [isPlaying, togglePlay] = useState(false)
+  const {timer} = AppValue()
   const audio = useRef(null)
-  const {timer, handleChange} = useContext(AppContext)
+  const location = useLocation()
+  const transitions = useTransition(location, location => location.pathname, {
+    from: {
+      transform: 'translateY(50px)',
+      opacity: 0
+    },
+    enter: {transform: 'translateY(0)', opacity: 1},
+    leave: {display: 'none'}
+  })
 
   useEffect(() => {
+    let myTimo
     if (isPlaying) {
-      audio.current.play()
+      myTimo = setTimeout(() => {
+        audio.current.play()
+      }, 2000)
     }
-  }, [])
+
+    return () => {
+      clearTimeout(myTimo)
+    }
+  }, [isPlaying])
 
   const handleTogglePlay = () => {
     togglePlay(prevState => !prevState)
@@ -49,17 +67,23 @@ const App = () => {
   return (
     <>
       <GlobalStyle />
-      <Container>
-        <audio ref={audio} src={alarm} onEnded={handleTogglePlay}></audio>
-        <Header isPlaying={isPlaying} />
-        <ListInput timer={timer} onChange={handleChange} />
-        <ItemProvider>
-          <ListItem />
-        </ItemProvider>
-        <Button onClick={handleTogglePlay} disabled={isEmpty(timer)}>
-          Mulai
-        </Button>
-      </Container>
+      <audio ref={audio} src={alarm} onEnded={handleTogglePlay}></audio>
+      {transitions.map(({item, key, props}) => (
+        <Container key={key} style={props}>
+          <Switch>
+            <Route exact path="/">
+              <Start isPlaying={isPlaying} />
+            </Route>
+            <Route path="/run">
+              {isEmpty(timer) ? (
+                <Redirect to="/" />
+              ) : (
+                <Run handleTogglePlay={handleTogglePlay} />
+              )}
+            </Route>
+          </Switch>
+        </Container>
+      ))}
     </>
   )
 }

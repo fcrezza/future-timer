@@ -1,6 +1,7 @@
-import React, {createContext, useState, useMemo} from 'react'
+import React, {createContext, useState, useContext} from 'react'
 
-export const ItemContext = createContext()
+const itemValueContext = createContext()
+const itemUpdaterContext = createContext()
 
 const ItemProvider = ({children}) => {
   const [editData, setEditData] = useState({})
@@ -20,19 +21,37 @@ const ItemProvider = ({children}) => {
     toggleEdit(prev => !prev)
   }
 
-  const values = useMemo(
-    () => ({
-      handleSetOpen,
-      handleToggleEdit,
-      handleEditData,
-      editData,
-      edit,
-      open
-    }),
-    [editData, open, edit]
+  return (
+    <itemValueContext.Provider value={{edit, open, editData}}>
+      <itemUpdaterContext.Provider
+        value={{handleSetOpen, handleToggleEdit, handleEditData}}
+      >
+        {children}
+      </itemUpdaterContext.Provider>
+    </itemValueContext.Provider>
   )
-
-  return <ItemContext.Provider value={values}>{children}</ItemContext.Provider>
 }
 
-export default ItemProvider
+const ItemValue = () => {
+  const value = useContext(itemValueContext)
+
+  if (!value) {
+    throw new Error("you don't use context")
+  }
+  const {edit, open, editData} = value
+
+  return {edit, open, editData}
+}
+
+const ItemUpdater = () => {
+  const updater = useContext(itemUpdaterContext)
+
+  if (!updater) {
+    throw new Error("you don't use context")
+  }
+  const {handleSetOpen, handleToggleEdit, handleEditData} = updater
+
+  return {handleSetOpen, handleToggleEdit, handleEditData}
+}
+
+export {ItemProvider, ItemValue, ItemUpdater}

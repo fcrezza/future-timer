@@ -1,9 +1,9 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
 import {device} from '../../utils/device'
-import {AppContext} from '../../context/AppContext'
-import {ItemContext} from '../../context/ItemContext'
+import {AppUpdater} from '../../context/AppContext'
+import {ItemValue, ItemUpdater} from '../../context/ItemContext'
 import ItemName from './ItemName'
 import ItemImg from './ItemImg'
 import ItemDuration from './ItemDuration'
@@ -44,20 +44,15 @@ export const AddItem = styled(StyledItem)`
 `
 
 const Item = ({list}) => {
-  const {edit, handleEditData} = useContext(ItemContext)
-  const {handleRemoveList, handleSetTimer} = useContext(AppContext)
+  const {edit} = ItemValue()
+  const {handleEditData} = ItemUpdater()
+  const {handleRemoveList, handleSetTimer} = AppUpdater()
 
   const {duration, id} = list
   const {hour, minute, second} = duration
-  let textDuration = ''
-
-  if (hour > 0) {
-    textDuration += `${hour} Jam `
-  } else if (minute > 0) {
-    textDuration += `${minute} Menit `
-  } else if (second > 0) {
-    textDuration += `${second} Detik`
-  }
+  let textDuration = `${hour ? `${hour} Jam ` : ''} ${
+    minute ? `${minute} Menit` : ''
+  } ${second ? `${second} Detik` : ''}`
 
   return (
     <StyledItem>

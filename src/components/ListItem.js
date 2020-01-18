@@ -1,6 +1,6 @@
-import React, {useContext} from 'react'
+import React from 'react'
 import styled from 'styled-components'
-import {ItemContext} from '../context/ItemContext'
+import {ItemValue, ItemUpdater} from '../context/ItemContext'
 import Items from './Item/Items'
 import ActionForm from './FormInput/ActionForm'
 import EditBtn from './EditBtn'
@@ -15,7 +15,8 @@ const StyledListItem = styled.div`
 `
 
 const ListItem = () => {
-  const {open, edit, handleToggleEdit} = useContext(ItemContext)
+  const {open, edit} = ItemValue()
+  const {handleToggleEdit} = ItemUpdater()
   return (
     <StyledListItem>
       <EditBtn color="#2100ec" onClick={handleToggleEdit}>

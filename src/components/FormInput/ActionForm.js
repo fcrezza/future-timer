@@ -1,7 +1,7 @@
-import React, {useState, useEffect, useContext} from 'react'
+import React, {useState, useEffect} from 'react'
 import styled from 'styled-components'
-import {AppContext} from '../../context/AppContext'
-import {ItemContext} from '../../context/ItemContext'
+import {AppValue, AppUpdater} from '../../context/AppContext'
+import {ItemValue, ItemUpdater} from '../../context/ItemContext'
 import getId from '../../utils/getId'
 import CloseBtn from './CloseBtn'
 import FormInput from './FormInput'
@@ -11,6 +11,7 @@ import TimeInput from '..//TimeInput/TimeInput'
 import TimeInputLabel from '..//TimeInput/TimeInputLabel'
 import Button from '../Button'
 import {isEmpty} from '../../utils/isEmpty'
+import Modal from '../Modal'
 
 const Overlay = styled.div`
   position: fixed;
@@ -44,8 +45,10 @@ const Overlay = styled.div`
 `
 
 const ActionForm = () => {
-  const {lists, handleSetList} = useContext(AppContext)
-  const {editData, handleEditData, handleSetOpen} = useContext(ItemContext)
+  const {lists} = AppValue()
+  const {handleSetList} = AppUpdater()
+  const {editData} = ItemValue()
+  const {handleEditData, handleSetOpen} = ItemUpdater()
   const id = getId(editData, lists)
   const [value, setValue] = useState({
     id,
@@ -72,6 +75,7 @@ const ActionForm = () => {
       handleEditData({})
       handleSetOpen()
     }
+    //eslint-disable-next-line
   }, [])
 
   function handleSetValue(id, e) {
@@ -88,7 +92,8 @@ const ActionForm = () => {
     setValue({...value, name: e})
   }
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault()
     const newLists = lists.filter(list => list.id !== value.id)
     handleSetList(newLists, value)
     setValue({
@@ -100,36 +105,38 @@ const ActionForm = () => {
   }
 
   return (
-    <Overlay>
-      <form onSubmit={handleSubmit}>
-        <CloseBtn handleClick={handleSetOpen} />
-        <div className="wrapper">
-          <div className="row">
-            <FormInputLabel id="name">Label:</FormInputLabel>
-            <FormInput
-              id="name"
-              value={value.name}
-              onChange={e => handleChange(e.target.value)}
-            />
+    <Modal>
+      <Overlay>
+        <form onSubmit={handleSubmit}>
+          <CloseBtn handleClick={handleSetOpen} />
+          <div className="wrapper">
+            <div className="row">
+              <FormInputLabel id="name">Label:</FormInputLabel>
+              <FormInput
+                id="name"
+                value={value.name}
+                onChange={e => handleChange(e.target.value)}
+              />
+            </div>
+            <div className="row">
+              {timeData.map((time, id) => (
+                <TimeInputGroup key={id}>
+                  <TimeInput
+                    id={time.id}
+                    value={time.value}
+                    onChange={e => handleSetValue(time.id, e.target.value)}
+                  />
+                  <TimeInputLabel id={time.id}>{time.text}</TimeInputLabel>
+                </TimeInputGroup>
+              ))}
+            </div>
           </div>
-          <div className="row">
-            {timeData.map((time, id) => (
-              <TimeInputGroup key={id}>
-                <TimeInput
-                  id={time.id}
-                  value={time.value}
-                  onChange={e => handleSetValue(time.id, e.target.value)}
-                />
-                <TimeInputLabel id={time.id}>{time.text}</TimeInputLabel>
-              </TimeInputGroup>
-            ))}
-          </div>
-        </div>
-        <Button onClick={handleSubmit} disabled={isEmpty(value.duration)}>
-          Simpan
-        </Button>
-      </form>
-    </Overlay>
+          <Button onClick={handleSubmit} disabled={isEmpty(value.duration)}>
+            Simpan
+          </Button>
+        </form>
+      </Overlay>
+    </Modal>
   )
 }
 

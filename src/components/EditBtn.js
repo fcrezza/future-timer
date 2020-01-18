@@ -14,7 +14,7 @@ const StyledEditBtn = styled.a`
 
 const EditBtn = ({children, color, onClick}) => {
   return (
-    <StyledEditBtn href="javascript:void(0)" color={color} onClick={onClick}>
+    <StyledEditBtn href="#" color={color} onClick={onClick}>
       {children}
     </StyledEditBtn>
   )

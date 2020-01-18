@@ -19,7 +19,7 @@ const StyledRemoveBtn = styled.a`
 `
 
 const RemoveBtn = ({handleClick}) => (
-  <StyledRemoveBtn href="javascript:void(0)" onClick={handleClick}>
+  <StyledRemoveBtn href="#" onClick={handleClick}>
     -
   </StyledRemoveBtn>
 )

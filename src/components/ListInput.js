@@ -14,9 +14,9 @@ const Wrapper = styled.div`
 const ListInput = ({timer, onChange}) => {
   const {hour, minute, second} = timer
   const timeData = [
-    {id: 'hour', text: 'Jam', value: hour},
-    {id: 'minute', text: 'Menit', value: minute},
-    {id: 'second', text: 'Detik', value: second}
+    {id: 'hour', text: 'JAM', value: hour},
+    {id: 'minute', text: 'MENIT', value: minute},
+    {id: 'second', text: 'DETIK', value: second}
   ]
 
   return (

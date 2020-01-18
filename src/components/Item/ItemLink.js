@@ -11,7 +11,7 @@ const StyledLink = styled.a`
 `
 
 const ItemLink = ({handleClick}) => (
-  <StyledLink href="javascript:void(0)" onClick={handleClick} />
+  <StyledLink href="#" onClick={handleClick} />
 )
 
 export default ItemLink

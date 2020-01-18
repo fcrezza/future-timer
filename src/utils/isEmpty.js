@@ -1,5 +1,6 @@
 export function isEmpty(value) {
   const data = []
+  //eslint-disable-next-line
   for (let x in value) {
     data.push(value[x].length)
   }

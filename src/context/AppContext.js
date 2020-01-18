@@ -1,13 +1,11 @@
-import React, {createContext, useState, useEffect, useMemo} from 'react'
+import React, {createContext, useState, useEffect, useContext} from 'react'
 
-export const AppContext = createContext()
+const appValueContext = createContext()
+const appUpdaterContext = createContext()
 
 const AppProvider = ({children}) => {
   const [timer, setTimer] = useState({hour: '', minute: '', second: ''})
-  const [lists, setLists] = useState([
-    {id: 1, name: 'Lari', duration: {hour: '0', minute: '30', second: '30'}},
-    {id: 2, name: 'Mandi', duration: {hour: '0', minute: '5', second: '0'}}
-  ])
+  const [lists, setLists] = useState([])
 
   useEffect(() => {
     const data = JSON.parse(localStorage.getItem('listItem'))
@@ -37,19 +35,42 @@ const AppProvider = ({children}) => {
     setLists([...newLists, value])
   }
 
-  const values = useMemo(
-    () => ({
-      handleChange,
-      handleSetTimer,
-      handleRemoveList,
-      handleSetList,
-      lists,
-      timer
-    }),
-    [lists, timer]
+  return (
+    <appValueContext.Provider value={{lists, timer}}>
+      <appUpdaterContext.Provider
+        value={{handleChange, handleSetList, handleSetTimer, handleRemoveList}}
+      >
+        {children}
+      </appUpdaterContext.Provider>
+    </appValueContext.Provider>
   )
-
-  return <AppContext.Provider value={values}>{children}</AppContext.Provider>
 }
 
-export default AppProvider
+const AppValue = () => {
+  const value = useContext(appValueContext)
+  if (!value) {
+    throw new Error("you don't use context")
+  }
+  const {lists, timer} = value
+
+  return {lists, timer}
+}
+
+const AppUpdater = () => {
+  const updater = useContext(appUpdaterContext)
+
+  if (!updater) {
+    throw new Error("you don't use context")
+  }
+
+  const {
+    handleChange,
+    handleSetList,
+    handleSetTimer,
+    handleRemoveList
+  } = updater
+
+  return {handleChange, handleSetList, handleSetTimer, handleRemoveList}
+}
+
+export {AppProvider, AppValue, AppUpdater}
